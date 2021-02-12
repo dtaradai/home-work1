@@ -34,30 +34,39 @@ function binarToDecimal($binar)
   return $num;
 }
 
-$num = 7;
-$numBin = decimToBinary($num);
+$num = 117;
+// $numBin = decimToBinary($num);
 // echo $numBin . '<br>';
 // $numDec = binarToDecimal($numBin);
 // echo 'Введенное число - ' . $num . ' было преобразовано в бинарное - ' . $numBin . ' далее обратно в десятичное - ' . $numDec . '<br>';
 
 
 // ------Написать функцию которая выводит первые N чисел фибоначчи----------
-function fibonachi($col, $val1 = 1, $val2 = 1)
+function fibonachi($N, $val1, $val2)
 {
-  for ($i = 2; $i <= $col; $i++) {
-    $fib = $val1 + $val2;
+  $arrFib = [];
+  for ($i = 1; $i <= $N; $i++) {
+    $sum = $val1 + $val2;
+    $arrFib[] = $sum;
     $val1 = $val2;
-    $val2 = $fib;
+    $val2 = $sum;
   }
-  return $fib;
+
+  return $arrFib;
 }
-// echo fibonachi(4);
+// echo '<pre>';
+// print_r(fibonachi(4, 5, 7));
+// echo '</pre>';
 
 
 //-----------Написать функцию, возведения числа N в степень M --------
 function degree($n, $m)
 {
-  return $n ** $m;
+  $nDegree = $n;
+  for ($i = 1; $i < $m; $i++) {
+    $nDegree *= $n;
+  }
+  return $nDegree;
 }
 $n = 2;
 $m = 3;
@@ -65,28 +74,17 @@ $m = 3;
 
 //Написать функцию которая вычисляет входит ли IP-адрес в диапазон указанных IP-адресов. Вычислить для версии ipv4.
 
-$ipArr = [
-  '192.168.0.3',
-  '192.168.0.12',
-  '192.168.15.3',
-  '192.168.0.17',
-  '192.168.0.29',
-  '192.168.134.3',
-  '192.168.111.3',
-  '192.168.245.3',
-];
+$ipMin =  '119.112.75.113';
+$ipMax = '255.255.0.11';
 
-function ipExists($ip, $arrIp)
+function ipExists($ip, $ipMin, $ipMax)
 {
-  $arrLeng = count($arrIp);
-  for ($i = 0; $i < $arrLeng; $i++) {
-    if ($arrIp[$i] == $ip) {
-      return true;
-    }
+  if (($ip > $ipMin) && ($ip < $ipMax)) {
+    return true;
   }
   return false;
 }
-// echo ipExists('192.168.134.3', $ipArr);
+// echo ipExists('192.168.134.3', $ipMin, $ipMax);
 
 
 
@@ -98,59 +96,67 @@ $arrNumber = [5, 7, 95, -8, 0, 13, -35, 107, 0, 17, -24];
 // ------ Определение, является ли число простым
 function isPrime($num)
 {
-  $highestIntegralSquareRoot = floor(sqrt($num));
-
-  for ($i = 2; $i <= $highestIntegralSquareRoot; $i++) {
-    if ($num % $i == 0) {
-      return false;
+  if ($num > 1) {
+    // Получаем квадратный корень из переданного числа
+    $highestIntegralSquareRoot = floor(sqrt($num));
+    // Ищем совпадение делителя до квадратного корня из переданного числа
+    for ($i = 2; $i <= $highestIntegralSquareRoot; $i++) {
+      if ($num % $i == 0) {
+        return false;
+      }
     }
+    return true;
   }
-  return true;
+  return 'Error number';
 }
 
 //
 function arrInfo($arrNumber)
 {
-  $params = [];
-  $positiveNum = 0;
-  $negativeNum = 0;
-  $nullNum = 0;
-  $primeNum = 0;
-  $colNumber = count($arrNumber);
-
-  for ($i = 0; $i < $colNumber; $i++) {
-    if ($arrNumber[$i] < 0) {
-      $negativeNum++;
-    }
-    if ($arrNumber[$i] > 0) {
-      $positiveNum++;
-      if (($arrNumber[$i] >= 2) && isPrime($arrNumber[$i])) {
-        $primeNum++;
+  if (count($arrNumber) > 0) {
+    $params = [];
+    $positiveNum = 0;
+    $negativeNum = 0;
+    $nullNum = 0;
+    $primeNum = 0;
+    $colNumber = count($arrNumber);
+  
+    for ($i = 0; $i < $colNumber; $i++) {
+      if ($arrNumber[$i] < 0) {
+        $negativeNum++;
+      }
+      if ($arrNumber[$i] > 0) {
+        $positiveNum++;
+        if (($arrNumber[$i] >= 2) && isPrime($arrNumber[$i])) {
+          $primeNum++;
+        }
+      }
+      if ($arrNumber[$i] == 0) {
+        $nullNum++;
       }
     }
-    if ($arrNumber[$i] == 0) {
-      $nullNum++;
+  
+    if ($positiveNum > 0) {
+      $percentagePositiv = ($positiveNum / $colNumber * 100);
+      $params['percentagePositiv'] = $percentagePositiv;
     }
+    if ($negativeNum > 0) {
+      $percentageNegativ = ($negativeNum / $colNumber * 100);
+      $params['percentageNegativ'] = $percentageNegativ;
+    }
+    if ($primeNum > 0) {
+      $percentagePrime = ($primeNum / $colNumber * 100);
+      $params['percentagePrime'] = $percentagePrime;
+    }
+    if ($nullNum > 0) {
+      $percentageNull = ($nullNum / $colNumber * 100);
+      $params['percentageNull'] = $percentageNull;
+    }
+  
+    return $params;
+  } else {
+    return 'The array contains nothing.';
   }
-
-  if ($positiveNum > 0) {
-    $percentagePositiv = ($positiveNum / $colNumber * 100);
-    $params['percentagePositiv'] = $percentagePositiv;
-  }
-  if ($negativeNum > 0) {
-    $percentageNegativ = ($negativeNum / $colNumber * 100);
-    $params['percentageNegativ'] = $percentageNegativ;
-  }
-  if ($primeNum > 0) {
-    $percentagePrime = ($primeNum / $colNumber * 100);
-    $params['percentagePrime'] = $percentagePrime;
-  }
-  if ($nullNum > 0) {
-    $percentageNull = ($nullNum / $colNumber * 100);
-    $params['percentageNull'] = $percentageNull;
-  }
-
-  return $params;
 }
 
 // echo '<pre>';
@@ -160,7 +166,8 @@ function arrInfo($arrNumber)
 
 
 //  Отсортировать элементы по возрастанию/убыванию
-function minSort($arrNumber) {
+function minSort($arrNumber)
+{
   $arrSort = [];
   while (count($arrNumber)) {
 
@@ -186,20 +193,16 @@ function minSort($arrNumber) {
 //------------Транспонировать матрицу----------
 $arr = [
   [5, 7, 9, -3, 0, 14],
-  [9, 54, 7],
-  [56, 2, 6, -7, -54, 19, -101, -4],
+  [9, 54, 7, -3, 0, 14],
+  [56, 2, 6, -7, -54, 19],
 ];
 
-function transposeMatrix($arr) {
-  $countArr = count($arr);
-
-  for ($i = 0; $i < $countArr; $i++) {
-    $countArrI = count($arr[$i]);
-
-    for ($j = 0; $j < $countArrI; $j++) { 
+function transposeMatrix($arr)
+{
+  for ($i = 0, $count = count($arr);  $i < $count; $i++) {
+    for ($j = 0, $countArrI = count($arr[$i]); $j < $countArrI; $j++) {
       $arrTr[$j][] = $arr[$i][$j];
     }
-
   }
 
   return $arrTr;
@@ -219,7 +222,8 @@ $arr2 = [
   [9, 54, 7],
 ];
 
-function matrixmult($m1, $m2) {
+function matrixmult($m1, $m2)
+{
   $row = count($m1);
   $column = count($m2[0]);
   $p = count($m2);
@@ -228,14 +232,14 @@ function matrixmult($m1, $m2) {
   }
   $m3 = [];
   for ($i = 0; $i < $row; $i++) {
-      for ($j = 0; $j < $column; $j++) {
-          $m3[$i][$j] = 0;
-          for ($k = 0; $k < $p; $k++) {
-              $m3[$i][$j] += $m1[$i][$k] * $m2[$k][$j];
-          }
+    for ($j = 0; $j < $column; $j++) {
+      $m3[$i][$j] = 0;
+      for ($k = 0; $k < $p; $k++) {
+        $m3[$i][$j] += $m1[$i][$k] * $m2[$k][$j];
       }
+    }
   }
-  return($m3);
+  return ($m3);
 }
 
 // echo '<pre>';
@@ -244,11 +248,12 @@ function matrixmult($m1, $m2) {
 
 
 //Удалить те строки, в которых сумма элементов положительна и присутствует хотя бы один нулевой элемент. Аналогично для столбцов.
-function delStrPosSummEndNull($arr) {
+function delStrPosSummEndNull($arr)
+{
   $countArr = count($arr);
-  for ($i = 0; $i < $countArr; $i++) { 
+  for ($i = 0; $i < $countArr; $i++) {
     $sumArrI = 0;
-    foreach($arr[$i] as $val) {
+    foreach ($arr[$i] as $val) {
       $sumArrI += $val;
       if ($val == 0) {
         $arrNull = true;
@@ -276,12 +281,13 @@ $arrArr = [
   ],
 ];
 
-function arrInfoEl($arr) {
+function arrInfoEl($arr)
+{
   foreach ($arr as $val) {
     if (is_array($val)) {
       arrInfoEl($val);
     } else {
-      echo 'El: ' . $val . '<br>' ;
+      echo 'El: ' . $val . '<br>';
     }
   }
 }
