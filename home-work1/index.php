@@ -73,18 +73,65 @@ $m = 3;
 // echo degree($n, $m);
 
 //Написать функцию которая вычисляет входит ли IP-адрес в диапазон указанных IP-адресов. Вычислить для версии ipv4.
+// Валидация вводимого IP
+function validIp($ip)
+{
+  $lengIpMax = 15;
+  $lengIpMin = 7;
 
-$ipMin =  '119.112.75.113';
-$ipMax = '255.255.0.11';
+  // Проверяем, соответсвует ли длинна переданого IP допустимой длинне строки
+  if ((strlen($ip) >= $lengIpMin) && (strlen($ip) <= $lengIpMax)) {
+    $ip = explode('.', $ip);
+
+    //Проверяем, состоит ли массив чисел IP из 4-х элементов
+    if (count($ip) != 4) {
+      return false;
+    } else {
+
+      //Проверяем, является ли соответствущий элемент массива IP коректным
+      foreach ($ip as $val) {
+        if (!is_numeric($val) || ($val < 0) || ($val >= 255)) {
+          return false;
+        }
+      }
+    }
+  } else {
+    return false;
+  }
+  return true;
+}
+
 
 function ipExists($ip, $ipMin, $ipMax)
 {
-  if (($ip > $ipMin) && ($ip < $ipMax)) {
-    return true;
+  if (validIp($ip) && validIp($ipMin) && validIp($ipMax)) {
+    $arrIp = explode('.', $ip);
+    $arrIpMin = explode('.', $ipMin);
+    $arrIpMax = explode('.', $ipMax);
+
+    for ($i = 0; $i < 4 ; $i++) { 
+      if (($arrIp[$i] > $arrIpMin[$i]) && ($arrIp[$i] < $arrIpMax[$i])) {
+        return true;
+      } elseif (($arrIp[$i] == $arrIpMin[$i]) || ($arrIp[$i] == $arrIpMax[$i])) {
+        if ($i == 3) {
+          return true;
+        }
+        continue;   
+      } else {
+        return 'IP not included in the specified range';
+      }
+    }
+
+  } else {
+    return 'Error, IP not valid';
   }
-  return false;
 }
-// echo ipExists('192.168.134.3', $ipMin, $ipMax);
+
+$ipMin =  '11.112.75.113';
+$ipMax = '205.25.14.211';
+$ip = '205.25.14.211';
+
+echo ipExists($ip, $ipMin, $ipMax);
 
 
 
