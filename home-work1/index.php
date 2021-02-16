@@ -238,60 +238,60 @@ function minSort($arrNumber)
 
 //-----------Для двумерных массивов-----------
 //------------Транспонировать матрицу----------
-$arr = [
+$matrix = [
   [5, 7, 9, -3, 0, 14],
   [9, 54, 7, -3, 0, 14],
   [56, 2, 6, -7, -54, 19],
 ];
 
-function transposeMatrix($arr)
+function transposeMatrix($matrix)
 {
-  for ($i = 0, $count = count($arr);  $i < $count; $i++) {
-    for ($j = 0, $countArrI = count($arr[$i]); $j < $countArrI; $j++) {
-      $arrTr[$j][] = $arr[$i][$j];
+  for ($i = 0, $count = count($matrix);  $i < $count; $i++) {
+    for ($j = 0, $countArrI = count($matrix[$i]); $j < $countArrI; $j++) {
+      $arrTr[$j][] = $matrix[$i][$j];
     }
   }
 
   return $arrTr;
 }
 // echo '<pre>';
-// print_r(transposeMatrix($arr));
+// print_r(transposeMatrix($matrix));
 // echo '</pre>';
 
 //--------------Умножить две матрицы------------
-$arr1 = [
+$matrix1 = [
   [5, 7],
   [9, 54],
   [56, 2],
 ];
-$arr2 = [
+$matrix2 = [
   [5, 7, 9],
   [9, 54, 7],
 ];
 
-function matrixmult($m1, $m2)
+function matrixmult($matrix1, $matrix2)
 {
-  $row = count($m1);
-  $column = count($m2[0]);
-  $p = count($m2);
-  if (count($m1[0]) != $p) {
+  $row = count($matrix1);
+  $column = count($matrix2[0]);
+  $coutM2 = count($matrix2);
+  if (count($matrix1[0]) != $coutM2) {
     return 'Несоответсвующие размеры матриц!';
   }
-  $m3 = [];
+  $matrix3 = [];
   for ($i = 0; $i < $row; $i++) {
     for ($j = 0; $j < $column; $j++) {
-      $m3[$i][$j] = 0;
-      for ($k = 0; $k < $p; $k++) {
-        $m3[$i][$j] += $m1[$i][$k] * $m2[$k][$j];
+      $matrix3[$i][$j] = 0;
+      for ($k = 0; $k < $coutM2; $k++) {
+        $matrix3[$i][$j] += $matrix1[$i][$k] * $matrix2[$k][$j];
       }
     }
   }
-  return ($m3);
+  return ($matrix3);
 }
 
-// echo '<pre>';
-// print_r(matrixmult($arr1, $arr2));
-// echo '</pre>';
+echo '<pre>';
+print_r(matrixmult($matrix1, $matrix2));
+echo '</pre>';
 
 
 //Удалить те строки, в которых сумма элементов положительна и присутствует хотя бы один нулевой элемент. Аналогично для столбцов.
