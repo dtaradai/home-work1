@@ -41,38 +41,45 @@ $num = 117;
 // echo 'Введенное число - ' . $num . ' было преобразовано в бинарное - ' . $numBin . ' далее обратно в десятичное - ' . $numDec . '<br>';
 
 
-// ------Написать функцию которая выводит первые N чисел фибоначчи----------
-function fibonachi($N, $val1, $val2)
+// ---Написать функцию которая выводит первые N чисел фибоначчи-----
+function fibonachi($quantity)
 {
-  $arrFib = [];
-  for ($i = 1; $i <= $N; $i++) {
-    $sum = $val1 + $val2;
-    $arrFib[] = $sum;
-    $val1 = $val2;
-    $val2 = $sum;
+  if ($quantity >= 2) {
+    $fib1 = $fib2 = 1;
+    $arrFib[] = $fib1;
+    $arrFib[] = $fib2;
+    $quantity = floor($quantity);
+    for ($i = 2; $i < $quantity; $i++) {
+      $sum = $fib1 + $fib2;
+      $arrFib[] = $sum;
+      $fib1 = $fib2;
+      $fib2 = $sum;
+    }
+    return $arrFib;
+  } else {
+    return 'Введите пожалуйста число >= 2.';
   }
-
-  return $arrFib;
 }
 // echo '<pre>';
-// print_r(fibonachi(4, 5, 7));
+// print_r(fibonachi('2.15'));
 // echo '</pre>';
 
 
 //-----------Написать функцию, возведения числа N в степень M --------
-function degree($n, $m)
+function degree($number, $degree)
 {
-  $nDegree = $n;
-  for ($i = 1; $i < $m; $i++) {
-    $nDegree *= $n;
+  $numDegree = $number;
+  for ($i = 1; $i < $degree; $i++) {
+    $numDegree *= $number;
   }
-  return $nDegree;
+  return $numDegree;
 }
-$n = 2;
-$m = 3;
-// echo degree($n, $m);
+$number = 2;
+$degree = 3;
+// echo degree($number, $degree);
 
 //Написать функцию которая вычисляет входит ли IP-адрес в диапазон указанных IP-адресов. Вычислить для версии ipv4.
+
 // Валидация вводимого IP
 function validIp($ip)
 {
@@ -109,19 +116,18 @@ function ipExists($ip, $ipMin, $ipMax)
     $arrIpMin = explode('.', $ipMin);
     $arrIpMax = explode('.', $ipMax);
 
-    for ($i = 0; $i < 4 ; $i++) { 
+    for ($i = 0; $i < 4; $i++) {
       if (($arrIp[$i] > $arrIpMin[$i]) && ($arrIp[$i] < $arrIpMax[$i])) {
         return true;
       } elseif (($arrIp[$i] == $arrIpMin[$i]) || ($arrIp[$i] == $arrIpMax[$i])) {
         if ($i == 3) {
           return true;
         }
-        continue;   
+        continue;
       } else {
         return 'IP not included in the specified range';
       }
     }
-
   } else {
     return 'Error, IP not valid';
   }
@@ -131,7 +137,7 @@ $ipMin =  '11.112.75.113';
 $ipMax = '205.25.14.211';
 $ip = '205.25.14.211';
 
-echo ipExists($ip, $ipMin, $ipMax);
+// echo ipExists($ip, $ipMin, $ipMax);
 
 
 
@@ -167,7 +173,7 @@ function arrInfo($arrNumber)
     $nullNum = 0;
     $primeNum = 0;
     $colNumber = count($arrNumber);
-  
+
     for ($i = 0; $i < $colNumber; $i++) {
       if ($arrNumber[$i] < 0) {
         $negativeNum++;
@@ -182,7 +188,7 @@ function arrInfo($arrNumber)
         $nullNum++;
       }
     }
-  
+
     if ($positiveNum > 0) {
       $percentagePositiv = ($positiveNum / $colNumber * 100);
       $params['percentagePositiv'] = $percentagePositiv;
@@ -199,7 +205,7 @@ function arrInfo($arrNumber)
       $percentageNull = ($nullNum / $colNumber * 100);
       $params['percentageNull'] = $percentageNull;
     }
-  
+
     return $params;
   } else {
     return 'The array contains nothing.';
@@ -246,7 +252,7 @@ $matrix = [
 
 function transposeMatrix($matrix)
 {
-  for ($i = 0, $count = count($matrix);  $i < $count; $i++) {
+  for ($i = 0, $count = count($matrix); $i < $count; $i++) {
     for ($j = 0, $countArrI = count($matrix[$i]); $j < $countArrI; $j++) {
       $arrTr[$j][] = $matrix[$i][$j];
     }
@@ -269,7 +275,7 @@ $matrix2 = [
   [9, 54, 7],
 ];
 
-function matrixmult($matrix1, $matrix2)
+function matrixMult($matrix1, $matrix2)
 {
   $row = count($matrix1);
   $column = count($matrix2[0]);
@@ -289,33 +295,33 @@ function matrixmult($matrix1, $matrix2)
   return ($matrix3);
 }
 
-echo '<pre>';
-print_r(matrixmult($matrix1, $matrix2));
-echo '</pre>';
+// echo '<pre>';
+// print_r(matrixMult($matrix1, $matrix2));
+// echo '</pre>';
 
 
 //Удалить те строки, в которых сумма элементов положительна и присутствует хотя бы один нулевой элемент. Аналогично для столбцов.
-function delStrPosSummEndNull($arr)
+function delStrPosSummEndNull($matrixNum)
 {
-  $countArr = count($arr);
+  $countArr = count($matrixNum);
   for ($i = 0; $i < $countArr; $i++) {
     $sumArrI = 0;
-    foreach ($arr[$i] as $val) {
+    foreach ($matrixNum[$i] as $val) {
       $sumArrI += $val;
       if ($val == 0) {
         $arrNull = true;
       }
     }
     if (($sumArrI > 0) && $arrNull) {
-      unset($arr[$i]);
+      unset($matrixNum[$i]);
     }
     unset($arrNull);
   }
-  return $arr;
+  return $matrixNum;
 }
-// echo '<pre>';
-// print_r(delStrPosSummOrNull($arr));
-// echo '</pre>';
+echo '<pre>';
+print_r(delStrPosSummEndNull($matrix));
+echo '</pre>';
 
 
 //рекурсивная функци которая будет обходить и выводить все значения любого массива и любого уровня вложенности
