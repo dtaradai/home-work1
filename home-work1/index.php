@@ -81,37 +81,42 @@ $degree = 3;
 //Написать функцию которая вычисляет входит ли IP-адрес в диапазон указанных IP-адресов. Вычислить для версии ipv4.
 
 // Валидация вводимого IP
-function validIp($ip)
-{
-  $lengIpMax = 15;
-  $lengIpMin = 7;
+// function validIp($ip)
+// {
+//   $lengIpMax = 15;
+//   $lengIpMin = 7;
+//   // Проверяем, соответсвует ли длинна переданого IP допустимой длинне строки
+//   if ((strlen($ip) >= $lengIpMin) && (strlen($ip) <= $lengIpMax)) {
+//     $ip = explode('.', $ip);
+//     //Проверяем, состоит ли массив чисел IP из 4-х элементов
+//     if (count($ip) != 4) {
+//       return false;
+//     } else {
+//       //Проверяем, является ли соответствущий элемент массива IP коректным
+//       foreach ($ip as $val) {
+//         if (!is_numeric($val) || ($val < 0) || ($val >= 255)) {
+//           return false;
+//         }
+//       }
+//     }
+//   } else {
+//     return false;
+//   }
+//   return true;
+// }
 
-  // Проверяем, соответсвует ли длинна переданого IP допустимой длинне строки
-  if ((strlen($ip) >= $lengIpMin) && (strlen($ip) <= $lengIpMax)) {
-    $ip = explode('.', $ip);
-
-    //Проверяем, состоит ли массив чисел IP из 4-х элементов
-    if (count($ip) != 4) {
-      return false;
-    } else {
-
-      //Проверяем, является ли соответствущий элемент массива IP коректным
-      foreach ($ip as $val) {
-        if (!is_numeric($val) || ($val < 0) || ($val >= 255)) {
-          return false;
-        }
-      }
-    }
-  } else {
-    return false;
-  }
-  return true;
+function ipValid($ip) {
+	$ipRegular = preg_match('/^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/', $ip
+  );
+	if ($ipRegular) {
+		return true;
+	}
+	return false;
 }
-
 
 function ipExists($ip, $ipMin, $ipMax)
 {
-  if (validIp($ip) && validIp($ipMin) && validIp($ipMax)) {
+  if (ipValid($ip) && ipValid($ipMin) && ipValid($ipMax)) {
     $arrIp = explode('.', $ip);
     $arrIpMin = explode('.', $ipMin);
     $arrIpMax = explode('.', $ipMax);
@@ -133,7 +138,7 @@ function ipExists($ip, $ipMin, $ipMax)
   }
 }
 
-$ipMin =  '11.112.75.113';
+$ipMin =  '0.11.75.113';
 $ipMax = '205.25.14.211';
 $ip = '205.25.14.211';
 
@@ -319,9 +324,9 @@ function delStrPosSummEndNull($matrixNum)
   }
   return $matrixNum;
 }
-echo '<pre>';
-print_r(delStrPosSummEndNull($matrix));
-echo '</pre>';
+// echo '<pre>';
+// print_r(delStrPosSummEndNull($matrix));
+// echo '</pre>';
 
 
 //рекурсивная функци которая будет обходить и выводить все значения любого массива и любого уровня вложенности
@@ -334,15 +339,15 @@ $arrArr = [
   ],
 ];
 
-function arrInfoEl($arr)
+function allValuesOfAnyArray($arrArr)
 {
-  foreach ($arr as $val) {
-    if (is_array($val)) {
-      arrInfoEl($val);
+  foreach ($arrArr as $elArr) {
+    if (is_array($elArr)) {
+      allValuesOfAnyArray($elArr);
     } else {
-      echo 'El: ' . $val . '<br>';
+      echo 'El: ' . $elArr . '<br>';
     }
   }
 }
 
-// arrInfoEl($arrArr);
+// allValuesOfAnyArray($arrArr);
